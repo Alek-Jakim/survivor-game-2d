@@ -1,3 +1,6 @@
+from settings import *
+
+
 class Scene:
     def __init__(self, screen, game_state_manager, clock):
         self.screen = screen
