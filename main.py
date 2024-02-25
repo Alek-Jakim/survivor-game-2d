@@ -1,10 +1,11 @@
-import sys
 from settings import *
 from scripts.game_state_manager import *
+from utils import close_game
 
 # Scenes
 from scenes.menu_scene import Menu
 from scenes.character_select_scene import CharacterSelect
+from scenes.controls_scene import Controls
 
 
 # Main game loop
@@ -22,6 +23,7 @@ class Game:
         self.game_state_manager = GameStateManager("menu")
 
         self.menu_scene = Menu(self.screen, self.game_state_manager, self.clock)
+        self.controls_scene = Controls(self.screen, self.game_state_manager, self.clock)
         self.character_select_scene = CharacterSelect(
             self.screen, self.game_state_manager, self.clock
         )
@@ -29,6 +31,7 @@ class Game:
         self.game_states = {
             "menu": self.menu_scene,
             "character_select": self.character_select_scene,
+            "controls": self.controls_scene,
         }
 
     def run(self):

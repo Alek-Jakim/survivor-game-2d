@@ -3,7 +3,7 @@ from scripts.game_state_manager import Scene
 from utils import close_game
 
 
-class CharacterSelect(Scene):
+class Controls(Scene):
     def __init__(self, screen, game_state_manager, clock):
         super().__init__(screen, game_state_manager, clock)
 
@@ -18,6 +18,6 @@ class CharacterSelect(Scene):
                         self.game_state_manager.set_state("menu")
                         running = False
 
-            self.screen.fill("red")
+            self.screen.fill("grey")
 
             pygame.display.update()

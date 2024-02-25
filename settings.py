@@ -9,7 +9,4 @@ FPS = 60
 
 root_path = os.path.dirname(__file__).replace("\\", "/")
 
-
-def close_game():
-    pygame.quit()
-    sys.exit()
+font_path = root_path + "/assets/font/game_font.ttf"
