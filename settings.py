@@ -10,3 +10,6 @@ FPS = 60
 root_path = os.path.dirname(__file__).replace("\\", "/")
 
 font_path = root_path + "/assets/font/game_font.ttf"
+
+
+tile_group = pygame.sprite.Group()

@@ -10,7 +10,7 @@ class Menu(Scene):
         super().__init__(screen, game_state_manager, clock)
 
         self.background_img = pygame.image.load(
-            root_path + "/assets/background.png"
+            root_path + "/assets/background/menu_bg.png"
         ).convert()
 
         self.background_rect = self.background_img.get_rect(topleft=(0, 0))
