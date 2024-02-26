@@ -55,7 +55,7 @@ class Menu(Scene):
                 [0, 0, 300, 100],
                 "black",
                 [WIN_WIDTH / 2, (WIN_HEIGHT / 2)],
-                "Select a character",
+                "Start Game",
                 "white",
                 get_font(font_path, 32),
             )
@@ -75,7 +75,7 @@ class Menu(Scene):
 
             if select_btn.btn_rect.collidepoint((mx, my)):
                 if self.clicked:
-                    self.game_state_manager.set_state("character_select")
+                    self.game_state_manager.set_state("battle")
                     running = False
 
             if controls_btn.btn_rect.collidepoint((mx, my)):

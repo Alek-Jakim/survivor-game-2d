@@ -4,7 +4,7 @@ from utils import close_game
 
 # Scenes
 from scenes.menu_scene import Menu
-from scenes.character_select_scene import CharacterSelect
+from scenes.battle import Battle
 from scenes.controls_scene import Controls
 
 
@@ -24,13 +24,11 @@ class Game:
 
         self.menu_scene = Menu(self.screen, self.game_state_manager, self.clock)
         self.controls_scene = Controls(self.screen, self.game_state_manager, self.clock)
-        self.character_select_scene = CharacterSelect(
-            self.screen, self.game_state_manager, self.clock
-        )
+        self.battle_scene = Battle(self.screen, self.game_state_manager, self.clock)
 
         self.game_states = {
             "menu": self.menu_scene,
-            "character_select": self.character_select_scene,
+            "battle": self.battle_scene,
             "controls": self.controls_scene,
         }
 

@@ -3,7 +3,7 @@ from scripts.game_state_manager import Scene
 from utils import close_game
 
 
-class CharacterSelect(Scene):
+class Battle(Scene):
     def __init__(self, screen, game_state_manager, clock):
         super().__init__(screen, game_state_manager, clock)
 
