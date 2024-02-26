@@ -22,8 +22,8 @@ class Game:
         # Game states
         self.game_state_manager = GameStateManager("menu")
 
-        self.menu_scene = Menu(self.screen, self.game_state_manager, self.clock)
-        self.controls_scene = Controls(self.screen, self.game_state_manager, self.clock)
+        self.menu_scene = Menu(self.screen, self.game_state_manager)
+        self.controls_scene = Controls(self.screen, self.game_state_manager)
         self.battle_scene = Battle(self.screen, self.game_state_manager, self.clock)
 
         self.game_states = {

@@ -4,8 +4,8 @@ from utils import close_game
 
 
 class Controls(Scene):
-    def __init__(self, screen, game_state_manager, clock):
-        super().__init__(screen, game_state_manager, clock)
+    def __init__(self, screen, game_state_manager):
+        super().__init__(screen, game_state_manager)
 
     def run(self):
         running = True

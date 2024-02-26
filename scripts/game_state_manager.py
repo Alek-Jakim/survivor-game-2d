@@ -2,10 +2,9 @@ from settings import *
 
 
 class Scene:
-    def __init__(self, screen, game_state_manager, clock):
+    def __init__(self, screen, game_state_manager):
         self.screen = screen
         self.game_state_manager = game_state_manager
-        self.clock = clock
 
     def run(self):
         pass

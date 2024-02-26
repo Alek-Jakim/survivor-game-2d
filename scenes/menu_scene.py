@@ -6,8 +6,8 @@ from utils import *
 
 
 class Menu(Scene):
-    def __init__(self, screen, game_state_manager, clock):
-        super().__init__(screen, game_state_manager, clock)
+    def __init__(self, screen, game_state_manager):
+        super().__init__(screen, game_state_manager)
 
         self.background_img = pygame.image.load(
             root_path + "/assets/background/menu_bg.png"
@@ -29,17 +29,13 @@ class Menu(Scene):
             for event in pygame.event.get():
                 if event.type == QUIT:
                     close_game()
-                # if event.type == KEYDOWN:
-                #     if event.key == K_l:
-                #         self.game_state_manager.set_state("character_select")
-                #         running = False
+
                 if event.type == MOUSEBUTTONDOWN:
                     self.clicked = True
 
             self.screen.blit(self.background_img, self.background_rect)
 
             # Title
-
             self.screen.blit(self.title_surf, self.title_rect)
 
             draw_text(
