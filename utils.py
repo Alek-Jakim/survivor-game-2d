@@ -16,10 +16,10 @@ def draw_text(text, font, color, surface, pos=(0, 0)):
     surface.blit(textobj, textrect)
 
 
-def import_assets(self, entity):
+def import_assets(self, path):
     self.animations = {}
 
-    for index, folder in enumerate(os.walk(root_path + f"/assets/{entity}")):
+    for index, folder in enumerate(os.walk(root_path + path)):
         if index == 0:
             for name in folder[1]:
                 if name not in self.animations:

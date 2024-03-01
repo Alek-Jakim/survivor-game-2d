@@ -6,7 +6,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, group, pos, collision_tiles):
         super().__init__(group)
 
-        import_assets(self, "player")
+        import_assets(self, "/assets/player")
 
         self.frame_idx = 0
         self.status = "idle_right"
@@ -30,7 +30,7 @@ class Player(pygame.sprite.Sprite):
 
         self.collision_tiles = collision_tiles
 
-    def input(self):
+    def input(self, dt):
         keys = pygame.key.get_pressed()
 
         if keys[K_a] and self.rect.left >= -85:
@@ -44,6 +44,8 @@ class Player(pygame.sprite.Sprite):
         else:
             self.dir.x = 0
             self.play_animation(f"idle_{self.facing_dir}")
+
+        self.animate(dt)
 
         if pygame.key.get_just_pressed()[K_SPACE] and not self.is_jumping:
             self.is_jumping = True
@@ -80,7 +82,7 @@ class Player(pygame.sprite.Sprite):
             self.gravity = 0
 
     def collision(self):
-        for sprite in self.collision_tiles.sprites():
+        for sprite in collision_tile_group.sprites():
             if sprite.rect.colliderect(self.rect):
                 if (
                     self.rect.bottom >= sprite.rect.top
@@ -93,7 +95,5 @@ class Player(pygame.sprite.Sprite):
                 self.pos.y = self.rect.y
 
     def update(self, dt):
-        self.input()
-        self.animate(dt)
+        self.input(dt)
         self.move(dt)
-        print(self.rect.left)

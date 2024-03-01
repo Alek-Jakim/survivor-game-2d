@@ -4,9 +4,8 @@ from utils import close_game
 from pytmx.util_pygame import load_pygame
 from scripts.tile import Tile, CollisionTile
 from scripts.player import Player
-
-
-tile_layers = ["sky", "buildings", "buildings_back", "ground"]
+from scripts.enemy import Enemy
+from random import randint
 
 
 class Battle(Scene):
@@ -18,6 +17,10 @@ class Battle(Scene):
         self.sound_manager = sound_manager
 
         self.init_player()
+
+        self.enemy_timer = pygame.USEREVENT + 1
+
+        pygame.time.set_timer(self.enemy_timer, randint(3000, 6000))
 
         self.draw_map()
 
@@ -61,14 +64,31 @@ class Battle(Scene):
                         self.game_state_manager.set_state("menu")
                         running = False
 
-            delta = self.clock.tick(FPS) / 1000
+                # Spawn Enemy
+                if event.type == self.enemy_timer:
+                    rand_pos = randint(0, 1)
+                    rand_enemy = randint(0, 1)
+
+                    Enemy(
+                        enemy_group,
+                        (WIN_WIDTH + 200 if rand_pos == 0 else -200, 300),
+                        "red" if rand_enemy == 0 else "white",
+                        600 if rand_enemy == 0 else 200,
+                        "left" if rand_pos == 0 else "right",
+                    )
+
+            dt = self.clock.tick(FPS) / 1000
 
             tile_group.update()
-            player_group.update(delta)
+            player_group.update(dt)
+            enemy_group.update(dt)
 
             self.screen.fill("black")
 
+            print(len(enemy_group))
+
             tile_group.draw(self.screen)
             player_group.draw(self.screen)
+            enemy_group.draw(self.screen)
 
             pygame.display.update()
