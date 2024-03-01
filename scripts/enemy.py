@@ -71,3 +71,17 @@ class Enemy(pygame.sprite.Sprite):
         self.move(dt)
         self.animate(dt)
         self.remove_off_screen()
+
+
+class RedWerewolf(Enemy):
+    def __init__(self, group, pos, speed, status):
+        super().__init__(group, pos, enemy_type="red", speed=speed, status=status)
+
+        self.status = f"run_{status}"
+
+
+class WhiteWerewolf(Enemy):
+    def __init__(self, group, pos, speed, status):
+        super().__init__(group, pos, enemy_type="white", speed=speed, status=status)
+
+        self.status = f"walk_{status}"

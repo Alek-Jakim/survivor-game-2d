@@ -4,7 +4,7 @@ from utils import close_game
 from pytmx.util_pygame import load_pygame
 from scripts.tile import Tile, CollisionTile
 from scripts.player import Player
-from scripts.enemy import Enemy
+from scripts.enemy import RedWerewolf, WhiteWerewolf
 from random import randint
 
 
@@ -68,14 +68,13 @@ class Battle(Scene):
                 if event.type == self.enemy_timer:
                     rand_pos = randint(0, 1)
                     rand_enemy = randint(0, 1)
+                    enemy_pos = (WIN_WIDTH + 200 if rand_pos == 0 else -200, 300)
+                    enemy_dir = "left" if rand_pos == 0 else "right"
 
-                    Enemy(
-                        enemy_group,
-                        (WIN_WIDTH + 200 if rand_pos == 0 else -200, 300),
-                        "red" if rand_enemy == 0 else "white",
-                        600 if rand_enemy == 0 else 200,
-                        "left" if rand_pos == 0 else "right",
-                    )
+                    if rand_enemy == 0:
+                        RedWerewolf(enemy_group, enemy_pos, 600, enemy_dir)
+                    else:
+                        WhiteWerewolf(enemy_group, enemy_pos, 200, enemy_dir)
 
             dt = self.clock.tick(FPS) / 1000
 
