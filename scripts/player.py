@@ -1,7 +1,5 @@
 from settings import *
 from utils import *
-from pygame.locals import *
-from pygame.math import Vector2
 
 
 class Player(pygame.sprite.Sprite):

@@ -6,7 +6,7 @@ from utils import *
 
 
 class Menu(Scene):
-    def __init__(self, screen, game_state_manager):
+    def __init__(self, screen, game_state_manager, sound_manager):
         super().__init__(screen, game_state_manager)
 
         self.background_img = pygame.image.load(
@@ -23,8 +23,16 @@ class Menu(Scene):
 
         self.clicked = False
 
+        self.sound_manager = sound_manager
+
+        self.sound_manager.sounds["main_theme"].stop()
+
     def run(self):
         running = True
+
+        if running:
+            self.sound_manager.sounds["main_theme"].stop()
+
         while running:
             for event in pygame.event.get():
                 if event.type == QUIT:

@@ -1,5 +1,6 @@
 from settings import *
 from scripts.game_state_manager import *
+from scripts.sound_manager import *
 from utils import close_game
 
 # Scenes
@@ -19,12 +20,16 @@ class Game:
 
         self.clock = pygame.time.Clock()
 
+        self.sound_manager = SoundManager()
+
         # Game states
         self.game_state_manager = GameStateManager("menu")
 
-        self.menu_scene = Menu(self.screen, self.game_state_manager)
+        self.menu_scene = Menu(self.screen, self.game_state_manager, self.sound_manager)
         self.controls_scene = Controls(self.screen, self.game_state_manager)
-        self.battle_scene = Battle(self.screen, self.game_state_manager, self.clock)
+        self.battle_scene = Battle(
+            self.screen, self.game_state_manager, self.clock, self.sound_manager
+        )
 
         self.game_states = {
             "menu": self.menu_scene,

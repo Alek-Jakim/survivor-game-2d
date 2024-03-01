@@ -10,10 +10,12 @@ tile_layers = ["sky", "buildings", "buildings_back", "ground"]
 
 
 class Battle(Scene):
-    def __init__(self, screen, game_state_manager, clock):
+    def __init__(self, screen, game_state_manager, clock, sound_manager):
         super().__init__(screen, game_state_manager)
 
         self.clock = clock
+
+        self.sound_manager = sound_manager
 
         self.init_player()
 
@@ -46,6 +48,10 @@ class Battle(Scene):
 
     def run(self):
         running = True
+
+        if running:
+            self.sound_manager.sounds["main_theme"].play(loops=-1)
+
         while running:
             for event in pygame.event.get():
                 if event.type == QUIT:
