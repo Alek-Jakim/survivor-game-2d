@@ -19,6 +19,7 @@ class Player(pygame.sprite.Sprite):
         self.gravity = 0
         self.is_jumping = False
         self.is_on_ground = False
+        self.is_attacking = False
 
         # movement
         self.pos = Vector2(self.rect.topleft)
@@ -30,14 +31,12 @@ class Player(pygame.sprite.Sprite):
 
         self.collision_tiles = collision_tiles
 
-    def input(self, dt):
-        keys = pygame.key.get_pressed()
-
-        if keys[K_a] and self.rect.left >= -85:
+    def movement_input(self, key):
+        if key[K_a] and self.rect.left >= -85:
             self.dir.x = -1
             self.play_animation("run_left")
             self.facing_dir = "left"
-        elif keys[K_d] and self.rect.right <= 1365:
+        elif key[K_d] and self.rect.right <= 1365:
             self.dir.x = 1
             self.play_animation("run_right")
             self.facing_dir = "right"
@@ -45,12 +44,32 @@ class Player(pygame.sprite.Sprite):
             self.dir.x = 0
             self.play_animation(f"idle_{self.facing_dir}")
 
-        self.animate(dt)
-
-        if pygame.key.get_just_pressed()[K_SPACE] and not self.is_jumping:
+    def jump_input(self, key):
+        if key[K_SPACE] and not self.is_jumping:
             self.is_jumping = True
             self.is_on_ground = False
             self.gravity = -900
+
+    def attack_input(self, key):
+        if key[K_p] and not self.is_jumping:
+            self.frame_idx = 0
+            self.play_animation(f"attack_{self.facing_dir}")
+            self.is_attacking = True
+            self.dir.x = 0
+
+    def input(self):
+        key = pygame.key.get_pressed()
+        key_pressed = pygame.key.get_just_pressed()
+
+        if not self.is_attacking:
+            # Move
+            self.movement_input(key)
+
+            # Jump
+            self.jump_input(key_pressed)
+
+            # Attack
+            self.attack_input(key_pressed)
 
     def move(self, dt):
 
@@ -69,6 +88,11 @@ class Player(pygame.sprite.Sprite):
         current_animation = self.animations[self.status]
 
         self.frame_idx += 7 * dt
+
+        if self.status.split("_")[0] == "attack":
+            if self.frame_idx >= len(current_animation):
+                self.is_attacking = False
+                self.play_animation(f"idle_{self.facing_dir}")
 
         if self.frame_idx >= len(current_animation):
             self.frame_idx = 0
@@ -95,5 +119,6 @@ class Player(pygame.sprite.Sprite):
                 self.pos.y = self.rect.y
 
     def update(self, dt):
-        self.input(dt)
+        self.input()
+        self.animate(dt)
         self.move(dt)

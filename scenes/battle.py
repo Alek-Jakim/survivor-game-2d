@@ -84,8 +84,6 @@ class Battle(Scene):
 
             self.screen.fill("black")
 
-            print(len(enemy_group))
-
             tile_group.draw(self.screen)
             player_group.draw(self.screen)
             enemy_group.draw(self.screen)
