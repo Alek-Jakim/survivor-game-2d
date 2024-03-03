@@ -217,10 +217,13 @@ class Player(pygame.sprite.Sprite):
 
                 if self.health == 0:
                     self.is_dead = True
+                    self.sound_manager.play_sound("dead")
                     self.animation_speed = 3
                     self.play_animation(f"dead_{self.facing_dir}")
 
                     self.dir.x = 0
+                else:
+                    self.sound_manager.play_sound("hurt")
 
     def draw_hitbox(self, screen):
         pygame.draw.rect(screen, "red", self.hitbox)

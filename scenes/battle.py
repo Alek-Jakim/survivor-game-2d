@@ -77,10 +77,12 @@ class Battle(Scene):
                         RedWerewolf(
                             enemy_group, enemy_pos, 600, enemy_dir, 2, self.score
                         )
+                        self.sound_manager.play_sound("red")
                     else:
                         WhiteWerewolf(
                             enemy_group, enemy_pos, 200, enemy_dir, 3, self.score
                         )
+                        self.sound_manager.play_sound("white")
 
             dt = self.clock.tick(FPS) / 1000
 
