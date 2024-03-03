@@ -92,7 +92,4 @@ class Battle(Scene):
             enemy_group.draw(self.screen)
             flame_group.draw(self.screen)
 
-            # for enemy in enemy_group.sprites():
-            #     enemy.draw_hitbox(self.screen)
-            print(len(enemy_group.sprites()))
             pygame.display.update()

@@ -82,6 +82,7 @@ class Player(pygame.sprite.Sprite):
                 right_flame_pos if self.facing_dir == "right" else left_flame_pos,
                 self.facing_dir,
             )
+            self.is_attacking = False
 
     def input(self):
         key = pygame.key.get_pressed()
@@ -119,7 +120,7 @@ class Player(pygame.sprite.Sprite):
     def animate(self, dt):
         current_animation = self.animations[self.status]
 
-        self.frame_idx += 7 * dt
+        self.frame_idx += 10 * dt
 
         if self.status.split("_")[0] == "attack":
             if self.frame_idx >= len(current_animation):
