@@ -33,11 +33,18 @@ class Flame(pygame.sprite.Sprite):
         self.pos.x += self.dir.x * dt * self.speed
         self.rect.x = round(self.pos.x)
 
-    def offscreen_kill(self):
+    def hit_enemy(self):
+        for enemy in enemy_group.sprites():
+            if self.rect.colliderect(enemy.rect):
+                enemy.take_damage()
+                self.kill()
+
+    def remove_off_screen(self):
         if self.pos.x <= -100 or self.pos.x >= WIN_WIDTH + 100:
             self.kill()
 
     def update(self, dt):
         self.move(dt)
         self.animate(dt)
-        self.offscreen_kill()
+        self.hit_enemy()
+        self.remove_off_screen()

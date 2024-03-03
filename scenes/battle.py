@@ -20,7 +20,7 @@ class Battle(Scene):
 
         self.enemy_timer = pygame.USEREVENT + 1
 
-        pygame.time.set_timer(self.enemy_timer, randint(3000, 6000))
+        pygame.time.set_timer(self.enemy_timer, randint(2000, 5000))
 
         self.draw_map()
 
@@ -73,10 +73,10 @@ class Battle(Scene):
                     enemy_pos = (WIN_WIDTH + 200 if rand_pos == 0 else -200, 300)
                     enemy_dir = "left" if rand_pos == 0 else "right"
 
-                    if rand_enemy == 0:
-                        RedWerewolf(enemy_group, enemy_pos, 600, enemy_dir)
-                    else:
-                        WhiteWerewolf(enemy_group, enemy_pos, 200, enemy_dir)
+                    # if rand_enemy == 0:
+                    #     RedWerewolf(enemy_group, enemy_pos, 600, enemy_dir)
+                    # else:
+                    WhiteWerewolf(enemy_group, enemy_pos, 200, enemy_dir, 2)
 
             dt = self.clock.tick(FPS) / 1000
 

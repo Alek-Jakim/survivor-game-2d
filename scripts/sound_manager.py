@@ -23,3 +23,6 @@ class SoundManager:
     def play_sound(self, sound, volume=1, loop=0):
         self.sounds[sound].set_volume(volume)
         self.sounds[sound].play(loops=loop)
+
+    def stop_sound(self, sound):
+        self.sounds[sound].stop()

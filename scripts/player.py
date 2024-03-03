@@ -74,6 +74,7 @@ class Player(pygame.sprite.Sprite):
         ):
             right_flame_pos = self.rect.centerx, self.rect.centery + 50
             left_flame_pos = self.rect.centerx - 100, self.rect.centery + 50
+            self.sound_manager.stop_sound("flame_attack")
             self.sound_manager.play_sound("flame_attack", 0.5, 0)
 
             Flame(

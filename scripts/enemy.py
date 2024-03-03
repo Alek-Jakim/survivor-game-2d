@@ -1,14 +1,17 @@
 from settings import *
 from utils import import_assets
+from math import sin
 
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, group, pos, enemy_type, speed, status):
+    def __init__(self, group, pos, enemy_type, speed, status, health):
         super().__init__(group)
 
         import_assets(self, f"/assets/enemies/{enemy_type}")
 
         self.frame_idx = 0
+
+        self.beginning_status = status
 
         self.status = f"run_{status}" if enemy_type == "red" else f"walk_{status}"
 
@@ -25,6 +28,43 @@ class Enemy(pygame.sprite.Sprite):
         self.gravity = 0
 
         self.is_on_ground = False
+
+        # Damage
+        self.is_hit = False
+        self.hit_time = 0
+        self.health = health
+
+    def wave_value(self):
+        value = sin(pygame.time.get_ticks())
+
+        if value >= 0:
+            return True
+        else:
+            return False
+
+    def blink(self):
+        if self.is_hit:
+            if self.wave_value():
+                print("heyooo")
+                mask = pygame.mask.from_surface(self.image)
+                white_surf = mask.to_surface()
+                white_surf.set_colorkey((0, 0, 0))
+                self.image = white_surf
+
+    def damage_timer(self):
+        if self.is_hit:
+            current_time = pygame.time.get_ticks()
+            if current_time - self.hit_time > 1000:
+                self.is_hit = False
+                self.dir.x = 1 if self.beginning_status == "right" else -1
+
+    def take_damage(self):
+        self.is_hit = True
+        self.dir.x = 0
+        self.health -= 1
+        self.hit_time = pygame.time.get_ticks()
+        if self.health == 0:
+            self.kill()
 
     def move(self, dt):
         self.pos.x += self.dir.x * dt * self.speed
@@ -69,7 +109,9 @@ class Enemy(pygame.sprite.Sprite):
 
     def update(self, dt):
         self.move(dt)
+        self.damage_timer()
         self.animate(dt)
+        self.blink()
         self.remove_off_screen()
 
 
@@ -81,7 +123,9 @@ class RedWerewolf(Enemy):
 
 
 class WhiteWerewolf(Enemy):
-    def __init__(self, group, pos, speed, status):
-        super().__init__(group, pos, enemy_type="white", speed=speed, status=status)
+    def __init__(self, group, pos, speed, status, health):
+        super().__init__(
+            group, pos, enemy_type="white", speed=speed, status=status, health=health
+        )
 
         self.status = f"walk_{status}"
