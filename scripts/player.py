@@ -114,7 +114,7 @@ class Player(pygame.sprite.Sprite):
     def flame_timer(self):
         if self.is_attacking:
             current_time = pygame.time.get_ticks()
-            if current_time - self.attack_time > 1000:
+            if current_time - self.attack_time > 1500:
                 self.can_attack = True
 
     def animate(self, dt):

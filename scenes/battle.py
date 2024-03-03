@@ -5,6 +5,7 @@ from pytmx.util_pygame import load_pygame
 from scripts.tile import Tile, CollisionTile
 from scripts.player import Player
 from scripts.enemy import RedWerewolf, WhiteWerewolf
+from scripts.ui_element import Score
 from random import randint
 
 
@@ -20,7 +21,10 @@ class Battle(Scene):
 
         self.enemy_timer = pygame.USEREVENT + 1
 
-        pygame.time.set_timer(self.enemy_timer, randint(1000, 3000))
+        pygame.time.set_timer(self.enemy_timer, randint(3000, 5000))
+
+        # UI
+        self.score = Score("/assets/UI", (WIN_WIDTH - 250, -25), (WIN_WIDTH - 450, -25))
 
         self.draw_map()
 
@@ -33,11 +37,7 @@ class Battle(Scene):
                 Tile(tile_group, surf, (x * 32, y * 32))
 
         for x, y, surf in tmx_map.get_layer_by_name("ground_collide").tiles():
-            CollisionTile(
-                collision_tile_group,
-                surf,
-                (x * 32, y * 32),
-            )
+            CollisionTile(collision_tile_group, surf, (x * 32, y * 32))
 
         for x, y, surf in tmx_map.get_layer_by_name("ground").tiles():
             Tile(
@@ -74,9 +74,13 @@ class Battle(Scene):
                     enemy_dir = "left" if rand_pos == 0 else "right"
 
                     if rand_enemy == 0:
-                        RedWerewolf(enemy_group, enemy_pos, 600, enemy_dir, 2)
+                        RedWerewolf(
+                            enemy_group, enemy_pos, 600, enemy_dir, 2, self.score
+                        )
                     else:
-                        WhiteWerewolf(enemy_group, enemy_pos, 200, enemy_dir, 3)
+                        WhiteWerewolf(
+                            enemy_group, enemy_pos, 200, enemy_dir, 3, self.score
+                        )
 
             dt = self.clock.tick(FPS) / 1000
 
@@ -91,5 +95,7 @@ class Battle(Scene):
             player_group.draw(self.screen)
             enemy_group.draw(self.screen)
             flame_group.draw(self.screen)
+
+            self.score.draw(self.screen)
 
             pygame.display.update()

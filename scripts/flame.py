@@ -17,7 +17,7 @@ class Flame(pygame.sprite.Sprite):
         self.pos = Vector2(self.rect.center)
         self.dir = Vector2()
         self.dir.x = -1 if facing_dir == "left" else 1
-        self.speed = 500
+        self.speed = 800
 
     def animate(self, dt):
         current_animation = self.animations[self.status]
@@ -35,7 +35,7 @@ class Flame(pygame.sprite.Sprite):
 
     def hit_enemy(self):
         for enemy in enemy_group.sprites():
-            if self.rect.colliderect(enemy.hitbox):
+            if self.rect.colliderect(enemy.hitbox) and not enemy.is_hit:
                 self.kill()
                 enemy.take_damage()
 
