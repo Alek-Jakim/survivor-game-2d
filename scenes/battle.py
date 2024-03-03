@@ -73,10 +73,10 @@ class Battle(Scene):
                     enemy_pos = (WIN_WIDTH + 200 if rand_pos == 0 else -200, 300)
                     enemy_dir = "left" if rand_pos == 0 else "right"
 
-                    # if rand_enemy == 0:
-                    #     RedWerewolf(enemy_group, enemy_pos, 600, enemy_dir)
-                    # else:
-                    WhiteWerewolf(enemy_group, enemy_pos, 200, enemy_dir, 2)
+                    if rand_enemy == 0:
+                        RedWerewolf(enemy_group, enemy_pos, 600, enemy_dir, 2)
+                    else:
+                        WhiteWerewolf(enemy_group, enemy_pos, 200, enemy_dir, 3)
 
             dt = self.clock.tick(FPS) / 1000
 
@@ -94,5 +94,5 @@ class Battle(Scene):
 
             # for enemy in enemy_group.sprites():
             #     enemy.draw_hitbox(self.screen)
-
+            print(len(enemy_group.sprites()))
             pygame.display.update()

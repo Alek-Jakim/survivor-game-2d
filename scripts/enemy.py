@@ -17,9 +17,8 @@ class Enemy(pygame.sprite.Sprite):
 
         self.image = self.animations[self.status][self.frame_idx]
         self.rect = self.image.get_rect(topleft=pos)
-        self.hitbox = self.rect.inflate(
-            -self.rect.width // 2 - 50, self.rect.height - 200
-        )
+
+        self.hitbox = pygame.Rect(0, 0, self.rect.width // 2, self.rect.height)
 
         self.old_rect = self.rect.copy()
 
@@ -72,11 +71,10 @@ class Enemy(pygame.sprite.Sprite):
     def move(self, dt):
         self.pos.x += self.dir.x * dt * self.speed
         self.rect.x = round(self.pos.x)
-        # self.hitbox.topleft = round(self.pos.x)
 
         self.pos.y += self.dir.y * dt * self.gravity
         self.rect.y = round(self.pos.y)
-        self.hitbox.topleft = (round(self.pos.x) + 70, round(self.pos.y))
+        self.hitbox.center = (round(self.rect.centerx), round(self.rect.centery))
 
         self.collision()
         self.apply_gravity()
@@ -122,14 +120,30 @@ class Enemy(pygame.sprite.Sprite):
         self.animate(dt)
         self.blink()
         self.remove_off_screen()
-        print(self.rect.height, self.rect.width)
 
 
 class RedWerewolf(Enemy):
-    def __init__(self, group, pos, speed, status):
-        super().__init__(group, pos, enemy_type="red", speed=speed, status=status)
+    def __init__(self, group, pos, speed, status, health):
+        super().__init__(
+            group, pos, enemy_type="red", speed=speed, status=status, health=health
+        )
 
         self.status = f"run_{status}"
+
+        self.hitbox = pygame.Rect(
+            0, 0, self.rect.width // 2 + 100, self.rect.height - 100
+        )
+
+    def move(self, dt):
+        self.pos.x += self.dir.x * dt * self.speed
+        self.rect.x = round(self.pos.x)
+
+        self.pos.y += self.dir.y * dt * self.gravity
+        self.rect.y = round(self.pos.y)
+        self.hitbox.center = (round(self.rect.centerx), round(self.rect.centery) + 100)
+
+        self.collision()
+        self.apply_gravity()
 
 
 class WhiteWerewolf(Enemy):
@@ -139,3 +153,5 @@ class WhiteWerewolf(Enemy):
         )
 
         self.status = f"walk_{status}"
+
+        self.hitbox = pygame.Rect(0, 0, self.rect.width // 2, self.rect.height)
