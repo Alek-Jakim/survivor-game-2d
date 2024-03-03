@@ -47,13 +47,15 @@ class Battle(Scene):
             )
 
     def init_player(self):
-        self.player = Player(player_group, (300, 300), collision_tile_group)
+        self.player = Player(
+            player_group, (300, 300), collision_tile_group, self.sound_manager
+        )
 
     def run(self):
         running = True
 
         if running:
-            self.sound_manager.sounds["main_theme"].play(loops=-1)
+            self.sound_manager.play_sound("main_theme", 0.5, -1)
 
         while running:
             for event in pygame.event.get():
@@ -79,6 +81,7 @@ class Battle(Scene):
             dt = self.clock.tick(FPS) / 1000
 
             tile_group.update()
+            flame_group.update(dt)
             player_group.update(dt)
             enemy_group.update(dt)
 
@@ -87,5 +90,7 @@ class Battle(Scene):
             tile_group.draw(self.screen)
             player_group.draw(self.screen)
             enemy_group.draw(self.screen)
+            flame_group.draw(self.screen)
 
             pygame.display.update()
+            print(len(flame_group))

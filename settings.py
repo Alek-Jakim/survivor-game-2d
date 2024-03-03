@@ -16,6 +16,7 @@ tile_layers = ["sky", "buildings", "buildings_back", "ground"]
 
 
 tile_group = pygame.sprite.Group()
+flame_group = pygame.sprite.Group()
 collision_tile_group = pygame.sprite.Group()
 player_group = pygame.sprite.GroupSingle()
 enemy_group = pygame.sprite.Group()
