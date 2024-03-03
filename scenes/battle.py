@@ -96,6 +96,8 @@ class Battle(Scene):
             enemy_group.draw(self.screen)
             flame_group.draw(self.screen)
 
+            player_group.sprite.health_bar(self.screen)
+
             self.score.draw(self.screen)
 
             pygame.display.update()

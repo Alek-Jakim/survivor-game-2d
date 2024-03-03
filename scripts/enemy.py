@@ -161,18 +161,6 @@ class RedWerewolf(Enemy):
         self.collision()
         self.apply_gravity()
 
-    # def take_damage(self):
-    #     self.is_hit = True
-    #     self.dir.x = 0
-    #     self.health -= 1
-    #     self.hit_time = pygame.time.get_ticks()
-
-    #     if self.health == 0:
-    #         self.score.update_score(self.enemy_type)
-    #         self.kill()
-    #     else:
-    #         self.play_animation(f"hurt_{self.beginning_status}")
-
     def damage_timer(self):
         if self.is_hit:
             current_time = pygame.time.get_ticks()
@@ -197,18 +185,6 @@ class WhiteWerewolf(Enemy):
         self.status = f"walk_{status}"
 
         self.hitbox = pygame.Rect(0, 0, self.rect.width // 2, self.rect.height)
-
-    # def take_damage(self):
-    #     self.is_hit = True
-    #     self.dir.x = 0
-    #     self.health -= 1
-    #     self.hit_time = pygame.time.get_ticks()
-
-    #     if self.health == 0:
-    #         self.score.update_score(self.enemy_type)
-    #         self.kill()
-    #     else:
-    #         self.play_animation(f"hurt_{self.beginning_status}")
 
     def damage_timer(self):
         if self.is_hit:
