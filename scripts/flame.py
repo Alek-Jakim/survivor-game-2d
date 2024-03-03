@@ -35,9 +35,9 @@ class Flame(pygame.sprite.Sprite):
 
     def hit_enemy(self):
         for enemy in enemy_group.sprites():
-            if self.rect.colliderect(enemy.rect):
-                enemy.take_damage()
+            if self.rect.colliderect(enemy.hitbox):
                 self.kill()
+                enemy.take_damage()
 
     def remove_off_screen(self):
         if self.pos.x <= -100 or self.pos.x >= WIN_WIDTH + 100:

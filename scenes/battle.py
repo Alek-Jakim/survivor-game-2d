@@ -20,7 +20,7 @@ class Battle(Scene):
 
         self.enemy_timer = pygame.USEREVENT + 1
 
-        pygame.time.set_timer(self.enemy_timer, randint(2000, 5000))
+        pygame.time.set_timer(self.enemy_timer, randint(1000, 3000))
 
         self.draw_map()
 
@@ -92,5 +92,7 @@ class Battle(Scene):
             enemy_group.draw(self.screen)
             flame_group.draw(self.screen)
 
+            # for enemy in enemy_group.sprites():
+            #     enemy.draw_hitbox(self.screen)
+
             pygame.display.update()
-            print(len(flame_group))
