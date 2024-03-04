@@ -43,6 +43,7 @@ class Player(pygame.sprite.Sprite):
         self.health_rect = self.health_icon.get_rect(center=(75, 60))
         self.is_dead = False
         self.stop_animation = False
+        self.game_over = False
 
         # movement
         self.pos = Vector2(self.rect.topleft)
@@ -245,3 +246,6 @@ class Player(pygame.sprite.Sprite):
         if self.is_dead:
             if int(self.frame_idx) == len(self.animations[self.status]) - 1:
                 self.frame_idx = len(self.animations[self.status]) - 1
+                self.game_over = True
+
+        print(self.game_over)

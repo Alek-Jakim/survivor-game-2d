@@ -1,6 +1,6 @@
 from settings import *
 from scripts.game_state_manager import Scene
-from utils import close_game
+from utils import close_game, draw_text, get_font
 from pytmx.util_pygame import load_pygame
 from scripts.tile import Tile, CollisionTile
 from scripts.player import Player
@@ -46,6 +46,36 @@ class Battle(Scene):
                 (x * 32, y * 32),
             )
 
+    def game_over_screen(self):
+        game_over_bg = pygame.Surface((WIN_WIDTH, WIN_HEIGHT))
+        game_over_bg.set_alpha(120)
+
+        self.screen.blit(game_over_bg, (0, 0))
+
+        total_score = self.score.calculate_total_score()
+
+        draw_text(
+            f"White werewolves killed: {self.score.white_score}\nRed werewolves killed: {self.score.red_score}\nTotal score is {total_score}",
+            get_font(font_path, 60),
+            "red",
+            self.screen,
+            (self.screen.get_width() // 2, self.screen.get_height() // 2 - 100),
+        )
+
+        draw_text(
+            f'Click "Escape" to go back to the main menu',
+            get_font(font_path, 50),
+            "white",
+            self.screen,
+            (self.screen.get_width() // 2, self.screen.get_height() // 2 + 100),
+        )
+
+    def reset_battle(self):
+        self.init_player()
+        enemy_group.empty()
+        self.enemy_timer = pygame.USEREVENT + 1
+        pygame.time.set_timer(self.enemy_timer, randint(3000, 4500))
+
     def init_player(self):
         self.player = Player(
             player_group, (300, 300), collision_tile_group, self.sound_manager
@@ -65,6 +95,7 @@ class Battle(Scene):
                     if event.key == K_ESCAPE:
                         self.game_state_manager.set_state("menu")
                         running = False
+                        self.reset_battle()
 
                 # Spawn Enemy
                 if event.type == self.enemy_timer:
@@ -102,5 +133,8 @@ class Battle(Scene):
             player_group.sprite.health_bar(self.screen)
 
             self.score.draw(self.screen)
+
+            if self.player.game_over:
+                self.game_over_screen()
 
             pygame.display.update()

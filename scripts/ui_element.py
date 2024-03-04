@@ -44,3 +44,10 @@ class Score:
             self.red_score += 1
         else:
             self.white_score += 1
+
+    def calculate_total_score(self):
+        return self.white_score * 1.3 + self.red_score * 2
+
+    def reset_score(self):
+        self.red_score = 0
+        self.white_score = 0
