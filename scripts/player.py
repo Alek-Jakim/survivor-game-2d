@@ -40,7 +40,7 @@ class Player(pygame.sprite.Sprite):
         self.health_icon = pygame.transform.scale_by(
             pygame.image.load(root_path + "/assets/heart.png").convert_alpha(), 1.5
         )
-        self.health_rect = self.health_icon.get_rect(center=(75, 75))
+        self.health_rect = self.health_icon.get_rect(center=(75, 60))
         self.is_dead = False
         self.stop_animation = False
 
@@ -90,7 +90,7 @@ class Player(pygame.sprite.Sprite):
             get_font(font_path, 60),
             "white",
             surf,
-            (150, 75),
+            (150, 60),
         )
 
     def jump_input(self, key):
@@ -210,12 +210,14 @@ class Player(pygame.sprite.Sprite):
                 self.hitbox.colliderect(enemy.hitbox)
                 and not self.is_hit
                 and not self.is_dead
+                and not enemy.is_dead
             ):
                 self.is_hit = True
                 self.hit_time = pygame.time.get_ticks()
                 self.health -= 1
 
                 if self.health == 0:
+                    self.frame_idx = 0
                     self.is_dead = True
                     self.sound_manager.play_sound("dead")
                     self.animation_speed = 3

@@ -39,17 +39,18 @@ class Enemy(pygame.sprite.Sprite):
         self.is_hit = False
         self.hit_time = 0
         self.health = health
+        self.is_dead = False
+        self.dead_time = 0
 
     def wave_value(self):
         value = sin(pygame.time.get_ticks())
-
         if value >= 0:
             return True
         else:
             return False
 
     def blink(self):
-        if self.is_hit:
+        if self.is_hit and not self.is_dead:
             if self.wave_value():
                 mask = pygame.mask.from_surface(self.image)
                 white_surf = mask.to_surface()
@@ -59,9 +60,17 @@ class Enemy(pygame.sprite.Sprite):
     def damage_timer(self):
         if self.is_hit:
             current_time = pygame.time.get_ticks()
-            if current_time - self.hit_time > 1000:
+            if current_time - self.hit_time > 1500 and not self.is_dead:
                 self.is_hit = False
                 self.dir.x = 1 if self.beginning_status == "right" else -1
+                anim_type = "walk" if self.enemy_type == "white" else "run"
+                self.play_animation(f"{anim_type}_{self.beginning_status}")
+
+    def dead_timer(self):
+        if self.is_dead:
+            current_time = pygame.time.get_ticks()
+            if current_time - self.dead_time > 2000:
+                self.kill()
 
     def play_animation(self, status):
         self.status = status
@@ -74,7 +83,13 @@ class Enemy(pygame.sprite.Sprite):
 
         if self.health == 0:
             self.score.update_score(self.enemy_type)
-            self.kill()
+            self.frame_idx = 0
+            self.animation_speed = 3
+            self.is_dead = True
+            self.play_animation(f"dead_{self.beginning_status}")
+            self.dir.x = 0
+            self.dead_time = pygame.time.get_ticks()
+
         else:
             self.play_animation(f"hurt_{self.beginning_status}")
 
@@ -90,7 +105,7 @@ class Enemy(pygame.sprite.Sprite):
         self.apply_gravity()
 
     def remove_off_screen(self):
-        if self.pos.x <= -255 or self.pos.x >= WIN_WIDTH + 255:
+        if self.pos.x <= -300 or self.pos.x >= WIN_WIDTH + 300:
             self.kill()
 
     def animate(self, dt):
@@ -127,9 +142,14 @@ class Enemy(pygame.sprite.Sprite):
     def update(self, dt):
         self.move(dt)
         self.damage_timer()
+        self.dead_timer()
         self.animate(dt)
         self.blink()
         self.remove_off_screen()
+
+        if self.is_dead:
+            if int(self.frame_idx) == len(self.animations[self.status]) - 1:
+                self.frame_idx = len(self.animations[self.status]) - 1
 
 
 class RedWerewolf(Enemy):
@@ -161,14 +181,6 @@ class RedWerewolf(Enemy):
         self.collision()
         self.apply_gravity()
 
-    def damage_timer(self):
-        if self.is_hit:
-            current_time = pygame.time.get_ticks()
-            if current_time - self.hit_time > 1500:
-                self.is_hit = False
-                self.dir.x = 1 if self.beginning_status == "right" else -1
-                self.play_animation(f"run_{self.beginning_status}")
-
 
 class WhiteWerewolf(Enemy):
     def __init__(self, group, pos, speed, status, health, score):
@@ -185,11 +197,3 @@ class WhiteWerewolf(Enemy):
         self.status = f"walk_{status}"
 
         self.hitbox = pygame.Rect(0, 0, self.rect.width // 2, self.rect.height)
-
-    def damage_timer(self):
-        if self.is_hit:
-            current_time = pygame.time.get_ticks()
-            if current_time - self.hit_time > 1500:
-                self.is_hit = False
-                self.dir.x = 1 if self.beginning_status == "right" else -1
-                self.play_animation(f"walk_{self.beginning_status}")

@@ -21,7 +21,7 @@ class Battle(Scene):
 
         self.enemy_timer = pygame.USEREVENT + 1
 
-        pygame.time.set_timer(self.enemy_timer, randint(3000, 5000))
+        pygame.time.set_timer(self.enemy_timer, randint(3000, 4500))
 
         # UI
         self.score = Score("/assets/UI", (WIN_WIDTH - 250, -25), (WIN_WIDTH - 450, -25))
@@ -70,7 +70,8 @@ class Battle(Scene):
                 if event.type == self.enemy_timer:
                     rand_pos = randint(0, 1)
                     rand_enemy = randint(0, 1)
-                    enemy_pos = (WIN_WIDTH + 200 if rand_pos == 0 else -200, 300)
+                    enemy_pos = (WIN_WIDTH + 150 if rand_pos == 0 else -150, 200)
+
                     enemy_dir = "left" if rand_pos == 0 else "right"
 
                     if rand_enemy == 0:
