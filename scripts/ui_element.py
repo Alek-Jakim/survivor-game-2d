@@ -46,7 +46,7 @@ class Score:
             self.white_score += 1
 
     def calculate_total_score(self):
-        return self.white_score * 1.3 + self.red_score * 2
+        return int(self.white_score * 5 + self.red_score * 10)
 
     def reset_score(self):
         self.red_score = 0

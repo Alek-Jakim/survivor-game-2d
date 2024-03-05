@@ -38,7 +38,8 @@ class Player(pygame.sprite.Sprite):
         self.sound_manager = sound_manager
         self.health = 3
         self.health_icon = pygame.transform.scale_by(
-            pygame.image.load(root_path + "/assets/heart.png").convert_alpha(), 1.5
+            pygame.image.load(root_path + "/assets/icons/heart.png").convert_alpha(),
+            1.5,
         )
         self.health_rect = self.health_icon.get_rect(center=(75, 60))
         self.is_dead = False
