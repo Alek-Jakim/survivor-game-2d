@@ -75,6 +75,7 @@ class Battle(Scene):
         enemy_group.empty()
         self.enemy_timer = pygame.USEREVENT + 1
         pygame.time.set_timer(self.enemy_timer, randint(3000, 4500))
+        self.score.reset_score()
 
     def init_player(self):
         self.player = Player(
@@ -107,7 +108,7 @@ class Battle(Scene):
 
                     if rand_enemy == 0:
                         RedWerewolf(
-                            enemy_group, enemy_pos, 600, enemy_dir, 2, self.score
+                            enemy_group, enemy_pos, 450, enemy_dir, 2, self.score
                         )
                         self.sound_manager.play_sound("red")
                     else:

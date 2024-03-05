@@ -11,7 +11,7 @@ class Player(pygame.sprite.Sprite):
         import_assets(self, "/assets/player")
 
         self.frame_idx = 0
-        self.animation_speed = 10
+        self.animation_speed = 7
         self.status = "idle_right"
 
         self.image = self.animations[self.status][self.frame_idx]
@@ -101,7 +101,7 @@ class Player(pygame.sprite.Sprite):
             self.gravity = -900
 
     def attack_input(self, key):
-        if key[K_p] and not self.is_jumping:
+        if key[K_p] and not self.is_jumping and not self.is_dead:
             self.frame_idx = 0
             self.can_attack = False
             self.play_animation(f"attack_{self.facing_dir}")

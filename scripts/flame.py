@@ -11,6 +11,8 @@ class Flame(pygame.sprite.Sprite):
         self.frame_idx = 0
         self.status = f"attack_{facing_dir}"
 
+        self.animation_speed = 7
+
         self.image = self.animations[self.status][self.frame_idx]
         self.rect = self.image.get_rect(center=pos)
 
@@ -22,7 +24,7 @@ class Flame(pygame.sprite.Sprite):
     def animate(self, dt):
         current_animation = self.animations[self.status]
 
-        self.frame_idx += 5 * dt
+        self.frame_idx += self.animation_speed * dt
 
         if self.frame_idx >= len(current_animation):
             self.frame_idx = 1
